@@ -1,42 +1,49 @@
-(function(){
-'use strict'
+(function() {
+  'use strict';
 
-    angular.module('lunchCheckApp', [])
+  angular.module('LunchCheck', [])
+    .controller('LunchCheckController', LunchCheckController);
 
-    .controller( 'lunchCheckController', function($scope){
-        $scope.message = "";
-        $scope.dishes = "";
-        $scope.checkToomuch = function() {
-            if ($scope.dishes == "")
-            {
-                $scope.message = "Please enter the data";
-            }
-            else
-            {
-                var items = itemsInText($scope.dishes);
+  LunchCheckController.$inject = ['$scope'];
 
-                if(items == 0 || $scope.dishes == "")
-                {
-                    $scope.message = "Empty";
-                }
-                else if ( items <= 3)
-                {
-                    $scope.message = "Enjoy";
-                }
-                else
-                {
-                    $scope.message = "Too much";
-                }
-            }
-        };
+  function LunchCheckController($scope) {
+    $scope.menu = "";
+    $scope.message = "";
+    $scope.checkStatus = "";
 
-        function itemsInText(string){
-            var arrayofstring = string.split(",");
-            console.log(arrayofstring);
-            return arrayofstring.length;
-        }
+    $scope.checkMenu = function() {
+      $scope.message = "";
+      var wordsCount = countWords($scope.menu);
 
+      if (wordsCount == 0) {
+        $scope.message = "Please enter data first";
+        $scope.checkStatus = "error";
+      } else if (wordsCount <= 3) {
+        $scope.message = "Enjoy!";
+        $scope.checkStatus = "ok";
+      } else if (wordsCount > 3) {
+        $scope.message = "Too much!";
+        $scope.checkStatus = "error";
+      }
+    };
 
-    } );
+    function countWords(string) {
+      string = string.trim();
+      var count = 0;
 
+      if (string.length > 0) {
+        count = string
+          .split(',')
+          .map(function(v) {
+            return v.trim();
+          })
+          .filter(function(v) {
+            return v != '';
+          })
+          .length;
+      }
+
+      return count;
+    }
+  }
 })();
