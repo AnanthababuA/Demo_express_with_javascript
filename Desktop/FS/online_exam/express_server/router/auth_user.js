@@ -7,7 +7,6 @@ const secretOrPrivateKey = "xavier";
 
 const router = express.Router();
 
-
   function validateAccessToken(req, res, next) {
     const authorizationHeader = req.headers.authorization;
 
@@ -76,26 +75,6 @@ const router = express.Router();
       res.json({ api_status: true, message: 'New access token generated', access: newAccessToken, refresh: refreshToken });
     });
   });
-
-//   router.get('/captcha', (req, res) => {
-//     const captchaOptions = {
-//         size: 5,            // Number of characters in captcha text
-//         noise: 4,           // Number of noise lines
-//         ignoreChars: '0o1i', // Characters to exclude from the captcha
-//     };
-
-//     const captcha = svgCaptcha.create(captchaOptions);
-    
-//     // Generate SHA-1 hash of the captcha text
-//     const captchaTextHash = crypto.createHash('sha1').update(captcha.text).digest('hex');
-
-//     // You can store the hash value in the session for later verification
-//     req.session.captcha = captchaTextHash;
-
-//     const base64Image = Buffer.from(captcha.data).toString('base64');
-
-//     res.json({ image: base64Image, captchahash: captchaTextHash });
-// });
 
 const authenticatedUser = (username,password, callback)=>{
 
